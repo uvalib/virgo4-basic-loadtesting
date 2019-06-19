@@ -1,0 +1,18 @@
+#
+# A simple scenario file showing how to configure a test
+#
+
+# end point and method
+endpoint: https://pool-solr-ws-catalog-dev.internal.lib.virginia.edu/api/search
+method: POST
+
+# method payload
+payload: search-ws/basic-query.json
+
+# load/itteration parameters
+concurency: 10
+count: 1000
+
+#
+# end of file
+#

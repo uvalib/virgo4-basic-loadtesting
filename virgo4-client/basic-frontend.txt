@@ -1,0 +1,15 @@
+#
+# A simple scenario file showing how to configure a test
+#
+
+# end point and method
+endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
+method: GET
+
+# load/itteration parameters
+concurency: 10
+count: 1000
+
+#
+# end of file
+#
