@@ -6,9 +6,12 @@
 endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
 method: GET
 
-# load/itteration parameters
-concurency: 10
-count: 1000
+# load parameters (total requests per second is qsec * concurrency)
+qsec: 1
+concurency: 5
+
+# test duration 10s, 3m, etc (total queries made is total requests per second * duration)
+duration: 30s
 
 #
 # end of file

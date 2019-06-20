@@ -22,9 +22,10 @@ function error_and_exit {
 function ensure_tool_available {
 
    local TOOL_NAME=$1
-   which $TOOL_NAME > /dev/null 2>&1
-   res=$?
-   if [ $res -ne 0 ]; then
+#   which $TOOL_NAME > /dev/null 2>&1
+#   res=$?
+#   if [ $res -ne 0 ]; then
+   if [ ! -x $TOOL_NAME ]; then
       error_and_exit "$TOOL_NAME is not available in this environment"
    fi
 }

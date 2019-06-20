@@ -18,7 +18,7 @@ fi
 
 # common definitions
 USER_AGENT="Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36"
-TOOL_DEFAULTS="-k"
+TOOL_DEFAULTS="-h2"
 
 # input parameters for clarity
 SCENARIO_FILE=$1
@@ -29,34 +29,35 @@ if [ ! -f $SCENARIO_FILE ]; then
 fi
 
 # ensure we have the tool available
-AB_TOOL=ab
-ensure_tool_available $AB_TOOL
+LOAD_TOOL=tools/bin/hey
+ensure_tool_available $LOAD_TOOL
 
 # get our parameters
 endpoint=$(get_config "endpoint" $SCENARIO_FILE required)
 method=$(get_config "method" $SCENARIO_FILE required)
 concurency=$(get_config "concurency" $SCENARIO_FILE required)
-count=$(get_config "count" $SCENARIO_FILE required)
+qsec=$(get_config "qsec" $SCENARIO_FILE required)
+duration=$(get_config "duration" $SCENARIO_FILE required)
 payload=$(get_config "payload" $SCENARIO_FILE optional)
 
-TOOL_OPTIONS="-c $concurency -n $count"
+TOOL_OPTIONS="-c $concurency -q $qsec -m $method -z $duration"
 
 # do some basic validation
 if [ "$method" == "POST" ]; then
    ensure_value_defined "payload" $payload
-   TOOL_OPTIONS="$TOOL_OPTIONS -H \"Content-Type: application/json\" -H \"Accept: application/json\" -p $payload"
+   TOOL_OPTIONS="$TOOL_OPTIONS -H \"Content-Type: application/json\" -H \"Accept: application/json\" -D $payload"
 fi
 
 # call the tool
 RUNNER=/tmp/runner.$$
-echo $AB_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS $endpoint > $RUNNER
+echo $LOAD_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS $endpoint > $RUNNER
 cat $RUNNER
 chmod +x $RUNNER
 $RUNNER
 res=$?
 rm $RUNNER
 if [ $res -ne 0 ]; then
-   error_and_exit "$res running $AB_TOOL"
+   error_and_exit "$res running $LOAD_TOOL"
 fi
 
 exit 0
