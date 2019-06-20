@@ -11,7 +11,7 @@ payload: search-ws/basic-query.json
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
-concurency: 3
+concurency: 30
 
 # test duration 10s, 3m, etc (total queries made is total requests per second * duration)
 duration: 60s

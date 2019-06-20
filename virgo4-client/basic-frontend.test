@@ -1,5 +1,5 @@
 #
-# A simple scenario file showing how to configure a test
+# A simple scenario file to describe a load test case.
 #
 
 # end point and method
@@ -8,7 +8,7 @@ method: GET
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
-concurency: 5
+concurency: 3
 
 # test duration 10s, 3m, etc (total queries made is total requests per second * duration)
 duration: 30s
