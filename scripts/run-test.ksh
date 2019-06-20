@@ -28,6 +28,9 @@ if [ ! -f $SCENARIO_FILE ]; then
    exit 1
 fi
 
+RESULTS_FILE=$(basename $SCENARIO_FILE).results
+rm $RESULTS_FILE >/dev/null 2>&1
+
 # ensure we have the tool available
 LOAD_TOOL=tools/bin/hey
 ensure_tool_available $LOAD_TOOL
@@ -53,13 +56,14 @@ RUNNER=/tmp/runner.$$
 echo $LOAD_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS $endpoint > $RUNNER
 cat $RUNNER
 chmod +x $RUNNER
-$RUNNER
+$RUNNER | tee $RESULTS_FILE
 res=$?
 rm $RUNNER
 if [ $res -ne 0 ]; then
    error_and_exit "$res running $LOAD_TOOL"
 fi
 
+echo "Results available in $RESULTS_FILE"
 exit 0
 
 #
