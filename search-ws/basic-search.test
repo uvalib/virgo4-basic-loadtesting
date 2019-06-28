@@ -1,0 +1,20 @@
+#
+# A simple scenario file to describe a search test case.
+#
+
+# end point
+endpoint: https://search-ws-dev.internal.lib.virginia.edu/api/search
+
+# method payload template (optional as appropriate)
+payload: search-ws/search-template.json
+
+# template support (optional as appropriate)
+wordlist: /usr/share/dict/words
+rewrite: XXXKEYWORDXXX
+
+# test itereations
+iterations: 100
+
+#
+# end of file
+#

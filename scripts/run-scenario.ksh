@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# basic scripting to drive Apache Bench for some load testing
+# basic scripting to drive an Apache Bench like tool for some load testing
 #
 
 # source helpers
@@ -33,7 +33,7 @@ rm $RESULTS_FILE >/dev/null 2>&1
 
 # ensure we have the tool available
 LOAD_TOOL=tools/bin/hey
-ensure_tool_available $LOAD_TOOL
+ensure_tool_file_available $LOAD_TOOL
 
 # get our parameters
 endpoint=$(get_config "endpoint" $SCENARIO_FILE required)

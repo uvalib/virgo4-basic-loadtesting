@@ -19,13 +19,21 @@ function error_and_exit {
 }
 
 # ensure the specific tool is available
+function ensure_tool_file_available {
+
+   local TOOL_NAME=$1
+   if [ ! -x $TOOL_NAME ]; then
+      error_and_exit "$TOOL_NAME is not available in this environment"
+   fi
+}
+
+# ensure the specific tool is available
 function ensure_tool_available {
 
    local TOOL_NAME=$1
-#   which $TOOL_NAME > /dev/null 2>&1
-#   res=$?
-#   if [ $res -ne 0 ]; then
-   if [ ! -x $TOOL_NAME ]; then
+   which $TOOL_NAME > /dev/null 2>&1
+   res=$?
+   if [ $res -ne 0 ]; then
       error_and_exit "$TOOL_NAME is not available in this environment"
    fi
 }
