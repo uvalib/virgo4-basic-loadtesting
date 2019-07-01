@@ -58,7 +58,7 @@ cat $RUNNER
 chmod +x $RUNNER
 $RUNNER | tee $RESULTS_FILE
 res=$?
-rm $RUNNER
+rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
    error_and_exit "$res running $LOAD_TOOL"
 fi

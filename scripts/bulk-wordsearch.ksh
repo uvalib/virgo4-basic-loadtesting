@@ -71,28 +71,29 @@ for word in $(<$WORDLIST_FILE); do
    # generate the search from the template
    cat $payload | $SED_TOOL -e "s/$rewrite/$word/g" > $PAYLOAD_FILE
 
-   echo -n "Search $COUNTER of $ITERATIONS: "
+   echo "Search $COUNTER of $ITERATIONS: ($word)"
 
    # issue the search
    $SCRIPT_DIR/issue-search.ksh $endpoint $PAYLOAD_FILE $RESPONSE_FILE
    res=$?
    if [ $res -ne 0 ]; then
-      error_and_exit "$res issuing search, aborting test"
+      error_and_exit "$res issuing search, aborting"
    fi
 
    # summerize the results
-   $SCRIPT_DIR/summerize-master-response.ksh $RESPONSE_FILE
+   #$SCRIPT_DIR/summerize-master-response.ksh $RESPONSE_FILE
+   $SCRIPT_DIR/walk-master-response.ksh $RESPONSE_FILE
    res=$?
    if [ $res -ne 0 ]; then
-      error_and_exit "$res processing results, aborting test"
+      error_and_exit "$res processing results, aborting"
    fi
    
 done
 
 # remove the working files
-rm $PAYLOAD_FILE
-rm $RESPONSE_FILE
-rm $WORDLIST_FILE
+rm $PAYLOAD_FILE > /dev/null 2>&1
+rm $RESPONSE_FILE > /dev/null 2>&1
+rm $WORDLIST_FILE > /dev/null 2>&1
 
 echo "Existing normally"
 exit 0

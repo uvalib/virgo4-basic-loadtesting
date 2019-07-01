@@ -44,12 +44,13 @@ RUNNER=/tmp/runner.$$
 TOOL_OPTIONS="$TOOL_OPTIONS -d @$PAYLOAD_FILE"
 
 # call the tool
+#echo "$ENDPOINT"
 echo $CURL_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS $ENDPOINT > $RUNNER
 #cat $RUNNER
 chmod +x $RUNNER
 $RUNNER > $RESULTS_FILE 2>/dev/null
 res=$?
-rm $RUNNER
+rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
    error_and_exit "$res issuing search"
 fi

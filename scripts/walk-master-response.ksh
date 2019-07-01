@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# script to summerize the standard response from a master search
+# script to walk through the standard response from a master search
 #
 
 # source helpers
@@ -27,13 +27,25 @@ fi
 # ensure we have the tools available
 JQ_TOOL=jq
 ensure_tool_available $JQ_TOOL
+TR_TOOL=tr
+ensure_tool_available $TR_TOOL
 
-QUERY=$(cat $RESULTS_FILE | $JQ_TOOL ".request.query")
-HITS=$(cat $RESULTS_FILE | $JQ_TOOL ".total_hits")
-TIME_MS=$(cat $RESULTS_FILE | $JQ_TOOL ".total_time_ms")
+#cat $RESULTS_FILE
 
-echo "hits=$HITS, ms=$TIME_MS, q=$QUERY"
-   
+POOLS=$(cat $RESULTS_FILE | $JQ_TOOL ".pool_results[].service_url" | $TR_TOOL -d "\"")
+
+for pool in $POOLS; do
+
+   echo "** pool url: $pool **"
+
+   $SCRIPT_DIR/walk-pool-response.ksh $RESULTS_FILE $pool
+   res=$?
+   if [ $res -ne 0 ]; then
+      error_and_exit "$res walking pool response, aborting"
+   fi
+
+done
+
 exit 0
 
 #
