@@ -16,6 +16,13 @@ if [ $# -ne 2 ]; then
    help_and_exit
 fi
 
+# we need to check for our operating environment
+if [[ "$OSTYPE" =~ "darwin" ]]; then
+   SHUF=gshuf
+else
+   SHUF=shuf
+fi
+
 # input parameters for clarity
 CONFIG_FILE=$1
 ITERATIONS=$2
@@ -32,6 +39,8 @@ rm $WORDLIST_FILE >/dev/null 2>&1
 # ensure we have the tools available
 SED_TOOL=sed
 ensure_tool_available $SED_TOOL
+SHUF_TOOL=$SHUF
+ensure_tool_available $SHUF_TOOL
 
 # get our parameters
 endpoint=$(get_config "endpoint" $CONFIG_FILE required)
@@ -53,7 +62,7 @@ fi
 
 # generate the test wordlist file we will use
 log "Generating test words..."
-cat $wordlist | sort -R | head -$ITERATIONS > $WORDLIST_FILE
+cat $wordlist | $SHUF_TOOL | head -$ITERATIONS > $WORDLIST_FILE
 
 # temp files
 PAYLOAD_FILE=/tmp/payload.$$

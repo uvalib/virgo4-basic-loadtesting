@@ -1,0 +1,10 @@
+# aliases we like
+alias ll='ls -al'
+alias bdf='df -k'
+
+# prompt
+export PWD=`pwd`
+export PS1='$PWD$ '
+
+# command editor
+set -o vi

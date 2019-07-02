@@ -1,0 +1,4 @@
+.git
+.gitignore
+package/scripts
+package/Dockerfile
