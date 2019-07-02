@@ -24,7 +24,7 @@ TOOL_DEFAULTS="-h2"
 SCENARIO_FILE=$1
 
 if [ ! -f $SCENARIO_FILE ]; then
-   echo "ERROR: $SCENARIO_FILE does not exist or is not readable" >&2
+   error_and_exit "$SCENARIO_FILE does not exist or is not readable"
    exit 1
 fi
 

@@ -23,8 +23,7 @@ RESULTS_FILE=$3
 
 # verify the payload file exists
 if [ ! -f $PAYLOAD_FILE ]; then
-   echo "ERROR: $PAYLOAD_FILE does not exist or is not readable" >&2
-   exit 1
+   error_and_exit "$PAYLOAD_FILE does not exist or is not readable"
 fi
 
 # remove the results file if it exists

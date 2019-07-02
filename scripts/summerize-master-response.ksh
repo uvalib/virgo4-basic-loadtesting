@@ -20,8 +20,7 @@ fi
 RESULTS_FILE=$1
 
 if [ ! -f $RESULTS_FILE ]; then
-   echo "ERROR: $RESULTS_FILE does not exist or is not readable" >&2
-   exit 1
+   error_and_exit "$RESULTS_FILE does not exist or is not readable"
 fi
 
 # ensure we have the tools available

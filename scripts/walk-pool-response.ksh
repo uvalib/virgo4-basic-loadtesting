@@ -21,8 +21,7 @@ RESULTS_FILE=$1
 POOL_URL=$2
 
 if [ ! -f $RESULTS_FILE ]; then
-   echo "ERROR: $RESULTS_FILE does not exist or is not readable" >&2
-   exit 1
+   error_and_exit "$RESULTS_FILE does not exist or is not readable"
 fi
 
 # ensure we have the tools available
@@ -48,8 +47,15 @@ TOTAL=$(echo $PAGINATION | $JQ_TOOL ".total")
 
 # special case (a bug IMO)
 if [ $ROWS -eq 0 ]; then
-   echo " no pool results"
+   log "no pool results"
    exit 0
+fi
+
+# limit the total page count
+ROW_LIMIT=2500
+if [ $TOTAL -gt $ROW_LIMIT ]; then
+   log "$TOTAL results, limiting to $ROW_LIMIT"
+   TOTAL=$ROW_LIMIT
 fi
 
 #echo "PAGINATION: $PAGINATION, START: $START, ROWS: $ROWS, TOTAL: $TOTAL"
@@ -65,7 +71,7 @@ COUNT=$ROWS
 while true; do
 
    if [ $COUNT -ge $TOTAL ]; then
-      echo " done"
+      log "$SEARCH_URL done"
       break
    fi
 
@@ -73,7 +79,7 @@ while true; do
    echo $REQUEST | $SED_TOOL -e "s/\"start\": 0,/\"start\": $COUNT,/g" > $REQUEST_FILE
 
    #cat $REQUEST_FILE
-   echo " $SEARCH_URL (start: $COUNT of $TOTAL)"
+   log "$SEARCH_URL (start: $COUNT of $TOTAL)"
 
    # issue the search
    $SCRIPT_DIR/issue-search.ksh $SEARCH_URL $REQUEST_FILE $RESPONSE_FILE

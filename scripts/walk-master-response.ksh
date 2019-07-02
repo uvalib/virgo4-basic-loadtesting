@@ -20,8 +20,7 @@ fi
 RESULTS_FILE=$1
 
 if [ ! -f $RESULTS_FILE ]; then
-   echo "ERROR: $RESULTS_FILE does not exist or is not readable" >&2
-   exit 1
+   error_and_exit "$RESULTS_FILE does not exist or is not readable"
 fi
 
 # ensure we have the tools available
@@ -32,11 +31,17 @@ ensure_tool_available $TR_TOOL
 
 #cat $RESULTS_FILE
 
+TOTAL_HITS=$(cat $RESULTS_FILE | $JQ_TOOL ".total_hits")
+if [ $TOTAL_HITS -eq 0 ]; then
+   log "no search results"
+   exit 0
+fi
+
 POOLS=$(cat $RESULTS_FILE | $JQ_TOOL ".pool_results[].service_url" | $TR_TOOL -d "\"")
 
 for pool in $POOLS; do
 
-   echo "** pool url: $pool **"
+   log "** pool url: $pool **"
 
    $SCRIPT_DIR/walk-pool-response.ksh $RESULTS_FILE $pool
    res=$?

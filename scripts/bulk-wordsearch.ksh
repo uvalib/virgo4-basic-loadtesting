@@ -22,8 +22,7 @@ ITERATIONS=$2
 
 # ensure the config file exists
 if [ ! -f $CONFIG_FILE ]; then
-   echo "ERROR: $CONFIG_FILE does not exist or is not readable" >&2
-   exit 1
+   error_and_exit "$CONFIG_FILE does not exist or is not readable"
 fi
 
 # our temp wordlist file
@@ -42,18 +41,18 @@ rewrite=$(get_config "rewrite" $CONFIG_FILE required)
 
 # ensure payload template exists
 if [ ! -f $payload ]; then
-   echo "ERROR: $payload does not exist or is not readable" >&2
+   error_and_exit "$payload does not exist or is not readable"
    exit 1
 fi
 
 # ensure wordlist source exists
 if [ ! -f $wordlist ]; then
-   echo "ERROR: $wordlist does not exist or is not readable" >&2
+   error_and_exit "$wordlist does not exist or is not readable"
    exit 1
 fi
 
 # generate the test wordlist file we will use
-echo "Generating test words..."
+log "Generating test words..."
 cat $wordlist | sort -R | head -$ITERATIONS > $WORDLIST_FILE
 
 # temp files
@@ -71,7 +70,7 @@ for word in $(<$WORDLIST_FILE); do
    # generate the search from the template
    cat $payload | $SED_TOOL -e "s/$rewrite/$word/g" > $PAYLOAD_FILE
 
-   echo "Search $COUNTER of $ITERATIONS: ($word)"
+   log "Search $COUNTER of $ITERATIONS: ($word)"
 
    # issue the search
    $SCRIPT_DIR/issue-search.ksh $endpoint $PAYLOAD_FILE $RESPONSE_FILE
@@ -95,7 +94,7 @@ rm $PAYLOAD_FILE > /dev/null 2>&1
 rm $RESPONSE_FILE > /dev/null 2>&1
 rm $WORDLIST_FILE > /dev/null 2>&1
 
-echo "Existing normally"
+log "Existing normally"
 exit 0
 
 #

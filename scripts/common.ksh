@@ -65,6 +65,13 @@ function get_config {
    echo $value
 }
 
+# log message with a timestamp
+function log {
+
+   DS=$(date "+%Y-%m-%d% %H:%M:%S")
+   echo "$DS: $*"
+}
+
 #
 # end of file
 #
