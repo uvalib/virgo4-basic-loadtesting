@@ -45,8 +45,8 @@ START=$(echo $PAGINATION | $JQ_TOOL ".start")
 ROWS=$(echo $PAGINATION | $JQ_TOOL ".rows")
 TOTAL=$(echo $PAGINATION | $JQ_TOOL ".total")
 
-# special case (a bug IMO)
-if [ $ROWS -eq 0 ]; then
+# special case
+if [ $TOTAL -eq 0 ]; then
    log "no pool results"
    exit 0
 fi
