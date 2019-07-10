@@ -48,7 +48,7 @@ TOOL_OPTIONS="-c $concurency -q $qsec -m $method -z $duration"
 # do some basic validation
 if [ "$method" == "POST" ]; then
    ensure_value_defined "payload" $payload
-   TOOL_OPTIONS="$TOOL_OPTIONS -H \"Content-Type: application/json\" -H \"Accept: application/json\" -D $payload"
+   TOOL_OPTIONS="$TOOL_OPTIONS -H \"Content-Type: application/json\" -H \"Accept: application/json\" -H \"Authorization: Bearer bkb4notbo1bc80d2uucg\" -D $payload"
 fi
 
 # call the tool
