@@ -3,7 +3,7 @@
 #
 
 # end point and method
-endpoint: https://search-ws-dev.internal.lib.virginia.edu/api/search
+endpoint: https://pool-solr-ws-catalog-dev.internal.lib.virginia.edu/api/search
 method: POST
 
 # method payload (optional as appropriate)
@@ -11,10 +11,10 @@ payload: search-ws/basic-query.json
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
-concurency: 30
+concurency: 4
 
 # test duration 10s, 3m, etc (total queries made is total requests per second * duration)
-duration: 60s
+duration: 30s
 
 #
 # end of file

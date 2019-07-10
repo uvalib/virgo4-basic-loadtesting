@@ -3,15 +3,18 @@
 #
 
 # end point and method
-endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
-method: GET
+endpoint: https://search-ws-dev.internal.lib.virginia.edu/api/search
+method: POST
+
+# method payload (optional as appropriate)
+payload: search-ws/basic-query.json
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
-concurency: 3
+concurency: 40
 
 # test duration 10s, 3m, etc (total queries made is total requests per second * duration)
-duration: 30s
+duration: 60s
 
 #
 # end of file
