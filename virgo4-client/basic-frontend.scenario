@@ -3,7 +3,8 @@
 #
 
 # end point and method
-endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
+#endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
+endpoint: https://virgo4-client.internal.lib.virginia.edu/
 method: GET
 
 # load parameters (total requests per second is qsec * concurrency)
