@@ -1,0 +1,18 @@
+#
+# A simple scenario file to describe a load test case.
+#
+
+# end point and method
+endpoint: https://virgo4-client.internal.lib.virginia.edu/
+method: GET
+
+# load parameters (total requests per second is qsec * concurrency)
+qsec: 1
+concurency: 4
+
+# test duration 10s, 3m, etc (total queries made is total requests per second * duration)
+duration: 30s
+
+#
+# end of file
+#

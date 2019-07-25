@@ -3,9 +3,11 @@
 #
 
 # end point and method
-#endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
-endpoint: https://virgo4-client.internal.lib.virginia.edu/
-method: GET
+endpoint: https://pool-solr-ws-catalog-dev.internal.lib.virginia.edu/api/search
+method: POST
+
+# method payload (optional as appropriate)
+payload: search-ws/basic-query.json
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
