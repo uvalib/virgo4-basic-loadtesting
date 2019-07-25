@@ -33,6 +33,9 @@ rm $RESULTS_FILE >/dev/null 2>&1
 CURL_TOOL=curl
 ensure_tool_available $CURL_TOOL
 
+# define the tool defaults
+TOOL_DEFAULTS="--fail"
+
 # define our basic options
 TOOL_OPTIONS="-X POST -H \"Content-Type: application/json\" -H \"Accept: application/json\" -H \"Authorization: Bearer bkb4notbo1bc80d2uucg\""
 
@@ -45,6 +48,7 @@ TOOL_OPTIONS="$TOOL_OPTIONS -d @$PAYLOAD_FILE"
 # call the tool
 #echo "$ENDPOINT"
 echo $CURL_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS $ENDPOINT > $RUNNER
+echo "exit \$?" >> $RUNNER
 #cat $RUNNER
 chmod +x $RUNNER
 $RUNNER > $RESULTS_FILE 2>/dev/null
