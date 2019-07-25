@@ -1,9 +1,10 @@
 #
 # build the target application
 #
-#FROM golang:1.12 as builder
-#WORKDIR /build
-#RUN go get -u github.com/rakyll/hey
+FROM golang:1.12 as builder
+ENV GOPATH /build
+WORKDIR $GOPATH
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go get -u github.com/rakyll/hey
 
 #
 # build the target container
@@ -25,7 +26,7 @@ WORKDIR $APP_HOME
 ADD . $APP_HOME
 
 # Move in necessary assets
-#COPY --from=builder /build/bin/virgo4-pool-solr-ws $APP_HOME/bin/virgo4-pool-solr-ws
+COPY --from=builder /build/bin/hey $APP_HOME/tools/bin/hey
 
 # Move in other assets
 COPY package/data/words /usr/share/dict/words
