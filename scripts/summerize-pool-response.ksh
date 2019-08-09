@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# script to summerize the standard response from a master search
+# script to summerize the standard response from a pool search
 #
 
 # source helpers
@@ -27,11 +27,9 @@ fi
 JQ_TOOL=jq
 ensure_tool_available $JQ_TOOL
 
-QUERY=$(cat $RESULTS_FILE | $JQ_TOOL ".request.query")
-HITS=$(cat $RESULTS_FILE | $JQ_TOOL ".total_hits")
-TIME_MS=$(cat $RESULTS_FILE | $JQ_TOOL ".total_time_ms")
+HITS=$(cat $RESULTS_FILE | $JQ_TOOL ".pagination.total")
 
-echo " ==> hits: $HITS, ms: $TIME_MS, q: $QUERY"
+echo " ==> hits: $HITS"
    
 exit 0
 

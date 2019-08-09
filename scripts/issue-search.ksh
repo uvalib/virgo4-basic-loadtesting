@@ -49,7 +49,11 @@ TOOL_OPTIONS="$TOOL_OPTIONS -d @$PAYLOAD_FILE"
 #echo "$ENDPOINT"
 echo $CURL_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS $ENDPOINT > $RUNNER
 echo "exit \$?" >> $RUNNER
+
+# for debugging
 #cat $RUNNER
+#cat $PAYLOAD_FILE
+
 chmod +x $RUNNER
 $RUNNER > $RESULTS_FILE 2>/dev/null
 res=$?
@@ -57,6 +61,9 @@ rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
    error_and_exit "$res issuing search"
 fi
+
+# for debugging
+#cat $RESULTS_FILE
 
 exit 0
 

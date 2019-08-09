@@ -3,6 +3,8 @@
 # common helpers used by the scripting
 #
 
+#set -x
+
 # print a message and exit
 function report_and_exit {
 
