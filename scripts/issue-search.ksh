@@ -55,12 +55,17 @@ echo "exit \$?" >> $RUNNER
 #cat $PAYLOAD_FILE
 
 chmod +x $RUNNER
+STIME=$(python -c 'import time; print time.time()')
 $RUNNER > $RESULTS_FILE 2>/dev/null
 res=$?
+ETIME=$(python -c 'import time; print time.time()')
 rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
    error_and_exit "$res issuing search"
 fi
+
+ELAPSED=$(echo "$ETIME - $STIME" | bc)
+echo " ==> elapsed $ELAPSED seconds"
 
 # for debugging
 #cat $RESULTS_FILE
