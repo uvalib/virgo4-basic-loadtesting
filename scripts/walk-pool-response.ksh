@@ -52,7 +52,7 @@ if [ $TOTAL -eq 0 ]; then
 fi
 
 # limit the total page count
-ROW_LIMIT=2500
+ROW_LIMIT=1000
 if [ $TOTAL -gt $ROW_LIMIT ]; then
    log "$TOTAL results, limiting to $ROW_LIMIT"
    TOTAL=$ROW_LIMIT
