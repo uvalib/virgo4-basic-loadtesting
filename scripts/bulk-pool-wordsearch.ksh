@@ -102,7 +102,7 @@ rm $PAYLOAD_FILE > /dev/null 2>&1
 rm $RESPONSE_FILE > /dev/null 2>&1
 rm $WORDLIST_FILE > /dev/null 2>&1
 
-log "Existing normally"
+log "Exiting normally"
 exit 0
 
 #
