@@ -72,6 +72,9 @@ RESPONSE_FILE=/tmp/response.$$
 # our progress counter
 COUNTER=0
 
+# test start time
+STIME=$(python -c 'import time; print time.time()')
+
 # go through the word list and issue a new search for each one
 for word in $(<$WORDLIST_FILE); do
 
@@ -103,10 +106,17 @@ for word in $(<$WORDLIST_FILE); do
    
 done
 
+# test end time
+ETIME=$(python -c 'import time; print time.time()')
+
 # remove the working files
 rm $PAYLOAD_FILE > /dev/null 2>&1
 rm $RESPONSE_FILE > /dev/null 2>&1
 rm $WORDLIST_FILE > /dev/null 2>&1
+
+# calculate and show total time
+ELAPSED=$(echo "$ETIME - $STIME" | bc)
+log "Total test time $ELAPSED seconds"
 
 log "Exiting normally"
 exit 0
