@@ -1,0 +1,50 @@
+Some tools to help with simple query and load tests
+---------------------------------------------------
+
+Both of these tools can operate on the pool master or on pools directly.
+
+A fixed query run concurrently
+-----------------------------
+Runs a fixed query many times concurrently.
+
+Note this tool requires an external tool to be installed. Go to the tools directory and read the read.me there.
+
+./scripts/run-scenario.ksh <scenario file name>
+
+Suitable scenario files exist in each of the service directories. eg:
+
+search-ws/60sec-1x-staging.scenario
+A 60 second scenario running at 4 queries per second (1x) against the staging search master endpoint
+
+pool-solr-ws/30sec-1x-catalog-staging.scenario
+A 30 second scenario running at 4 queries per second (1x) against the staging SOLR catalog pool endpoint
+
+Each scenario file defines the endpoint to test, for how long, what level of concurrency, what the search will be, etc.
+
+A random word query
+-------------------
+Issues a random word query a specified number of times.
+
+./scripts/bulk-master-wordsearch.ksh <configuration file name> <number of iterations>
+
+Query the master search service a specified number of times and optionally iterate through the results from each pool.
+
+./scripts/bulk-pool-wordsearch.ksh <configuration file name> <number of iterations>
+
+Query a pool service a specified number of times and optionally iterate through each of the results.
+
+Suitable configuration files exist in each of the service directories. eg:
+
+search-ws/basic-search-production.config
+Search the production master service and report the number of hits and search time for each query. Should use the bulk-master-wordsearch.ksh script.
+
+search-ws/full-search-staging.config
+Search the staging master service and iterate through the results from each pool. Should use the bulk-master-wordsearch.ksh script.
+
+pool-eds-ws/full-staging.config
+Search the staging EDS pool and iterate through the pool results. Should use the bulk-pool-wordsearch.ksh script.
+
+pool-solr-ws/basic-catalog-production.config
+Search the production SOLR catalog pool and report the number of hits and search time for each query. Should use the bulk-pool-wordsearch.ksh script.
+
+Each configuration file defines the endpoint to test, the query template to submit and how to rewrite it with words from the specified word list, and whether to iterate over the results or just sumerize them.
