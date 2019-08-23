@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# script to walk through the standard response from a pool search
+# script to walk through the pool portion of a standard response from a master search
 #
 
 # source helpers
@@ -8,7 +8,7 @@ SCRIPT_DIR=$(dirname $0)
 . $SCRIPT_DIR/common.ksh
 
 function help_and_exit {
-   report_and_exit "use: $(basename $0) <results file> <request file>"
+   report_and_exit "use: $(basename $0) <results file> <pool url>"
 }
 
 # ensure correct usage
@@ -18,14 +18,10 @@ fi
 
 # input parameters for clarity
 RESULTS_FILE=$1
-REQUEST_FILE=$2
+POOL_URL=$2
 
 if [ ! -f $RESULTS_FILE ]; then
    error_and_exit "$RESULTS_FILE does not exist or is not readable"
-fi
-
-if [ ! -f $REQUEST_FILE ]; then
-   error_and_exit "$REQUEST_FILE does not exist or is not readable"
 fi
 
 # ensure we have the tools available
@@ -33,15 +29,14 @@ JQ_TOOL=jq
 ensure_tool_available $JQ_TOOL
 SED_TOOL=sed
 ensure_tool_available $SED_TOOL
-TR_TOOL=tr
-ensure_tool_available $TR_TOOL
 
 # basic definitions
+SEARCH_URL=$POOL_URL/api/search
 
 # extract the needed info from the results file
-REQUEST=$(cat $REQUEST_FILE)
-ENDPOINT=$(cat $RESULTS_FILE | $JQ_TOOL ".service_url" | $TR_TOOL -d "\"")
-PAGINATION=$(cat $RESULTS_FILE | $JQ_TOOL ".pagination")
+REQUEST=$(cat $RESULTS_FILE | $JQ_TOOL ".request")
+POOL_RESULTS=$(cat $RESULTS_FILE | $JQ_TOOL ".pool_results[] | select(.service_url==\"$POOL_URL\")")
+PAGINATION=$(echo $POOL_RESULTS | $JQ_TOOL ".pagination")
 
 # values for the paging
 START=$(echo $PAGINATION | $JQ_TOOL ".start")
@@ -63,12 +58,9 @@ fi
 
 #echo "PAGINATION: $PAGINATION, START: $START, ROWS: $ROWS, TOTAL: $TOTAL"
 
-# pool endpoint
-SEARCH_URL=$ENDPOINT/api/search
-
 # temp files
-REQUEST_FILE=/tmp/request-pool.$$
-RESPONSE_FILE=/tmp/response-pool.$$
+REQUEST_FILE=/tmp/request.$$
+RESPONSE_FILE=/tmp/response.$$
 
 # our current query count in the pager
 COUNT=$ROWS
@@ -82,7 +74,7 @@ while true; do
    fi
 
    # prepare the request payload
-   echo $REQUEST | $SED_TOOL -e "s/\"start\":0,/\"start\":$COUNT,/g" > $REQUEST_FILE
+   echo $REQUEST | $SED_TOOL -e "s/\"start\": 0,/\"start\": $COUNT,/g" > $REQUEST_FILE
 
    #cat $REQUEST_FILE
    log "$SEARCH_URL (start: $COUNT of $TOTAL)"

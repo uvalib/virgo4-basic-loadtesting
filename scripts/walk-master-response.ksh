@@ -43,7 +43,7 @@ for pool in $POOLS; do
 
    log "** pool url: $pool **"
 
-   $SCRIPT_DIR/walk-pool-response.ksh $RESULTS_FILE $pool
+   $SCRIPT_DIR/walk-master-pool-response.ksh $RESULTS_FILE $pool
    res=$?
    if [ $res -ne 0 ]; then
       error_and_exit "$res walking pool response, aborting"

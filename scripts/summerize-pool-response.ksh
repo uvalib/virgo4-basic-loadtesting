@@ -30,7 +30,7 @@ ensure_tool_available $JQ_TOOL
 HITS=$(cat $RESULTS_FILE | $JQ_TOOL ".pagination.total")
 
 echo " ==> hits: $HITS"
-   
+
 exit 0
 
 #

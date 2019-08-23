@@ -47,6 +47,7 @@ endpoint=$(get_config "endpoint" $CONFIG_FILE required)
 payload=$(get_config "payload" $CONFIG_FILE required)
 wordlist=$(get_config "wordlist" $CONFIG_FILE required)
 rewrite=$(get_config "rewrite" $CONFIG_FILE required)
+walkresults=$(get_config "walkresults" $CONFIG_FILE required)
 
 # ensure payload template exists
 if [ ! -f $payload ]; then
@@ -92,8 +93,13 @@ for word in $(<$WORDLIST_FILE); do
    fi
 
    # summerize the results
-   $SCRIPT_DIR/summerize-pool-response.ksh $RESPONSE_FILE
-   res=$?
+   if [ "$walkresults" == "no" ]; then
+      $SCRIPT_DIR/summerize-pool-response.ksh $RESPONSE_FILE
+      res=$?
+   else
+      $SCRIPT_DIR/walk-pool-response.ksh $RESPONSE_FILE $PAYLOAD_FILE
+      res=$?
+   fi
    if [ $res -ne 0 ]; then
       error_and_exit "$res processing results, aborting"
    fi
