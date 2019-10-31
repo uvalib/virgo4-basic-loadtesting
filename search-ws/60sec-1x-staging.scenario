@@ -7,7 +7,7 @@ endpoint: https://search-ws-dev.internal.lib.virginia.edu/api/search
 method: POST
 
 # method payload (optional as appropriate)
-payload: search-ws/basic-query.json
+payload: search-ws/keyword-query.json
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
