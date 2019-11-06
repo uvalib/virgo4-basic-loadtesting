@@ -4,7 +4,8 @@
 #
 
 # source helpers
-SCRIPT_DIR=$(dirname $0)
+FULL_NAME=$(realpath $0)
+SCRIPT_DIR=$(dirname $FULL_NAME)
 . $SCRIPT_DIR/common.ksh
 
 function help_and_exit {
