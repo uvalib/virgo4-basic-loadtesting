@@ -64,7 +64,10 @@ fi
 
 # generate the test wordlist file we will use
 log "Generating test words..."
-cat $wordlist | $SHUF_TOOL | head -$ITERATIONS > $WORDLIST_FILE
+WORD_COUNT=$(($ITERATIONS * 3 ))
+cat $wordlist | $SHUF_TOOL | head -$WORD_COUNT > $WORDLIST_FILE
+IFS=$'\n' read -d '' -r -a words < $WORDLIST_FILE
+rm $WORDLIST_FILE > /dev/null 2>&1
 
 # temp files
 PAYLOAD_FILE=/tmp/payload.$$
@@ -77,14 +80,22 @@ COUNTER=0
 STIME=$(python -c 'import time; print time.time()')
 
 # go through the word list and issue a new search for each one
-for word in $(<$WORDLIST_FILE); do
+while [ $COUNTER -lt $ITERATIONS ]; do
 
-   COUNTER=$((COUNTER + 1 ))
+   COUNTER=$(($COUNTER + 1 ))
+
+   # support up to 3 terms
+   IX=$(($RANDOM % $WORD_COUNT))
+   TERM1=${words[$IX]}
+   IX=$(($RANDOM % $WORD_COUNT))
+   TERM2=${words[$IX]}
+   IX=$(($RANDOM % $WORD_COUNT))
+   TERM3=${words[$IX]}
 
    # generate the search from the template
-   cat $payload | $SED_TOOL -e "s/$rewrite/$word/g" > $PAYLOAD_FILE
+   cat $payload | $SED_TOOL -e "s/_TERM1_/$TERM1/g" | $SED_TOOL -e "s/_TERM2_/$TERM2/g" | $SED_TOOL -e "s/_TERM3_/$TERM3/g" > $PAYLOAD_FILE
 
-   log "Search $COUNTER of $ITERATIONS: ($word)"
+   log "Search $COUNTER of $ITERATIONS: ($(cat $PAYLOAD_FILE))"
 
    # issue the search
    $SCRIPT_DIR/issue-search.ksh $endpoint $PAYLOAD_FILE $RESPONSE_FILE
@@ -113,7 +124,6 @@ ETIME=$(python -c 'import time; print time.time()')
 # remove the working files
 rm $PAYLOAD_FILE > /dev/null 2>&1
 rm $RESPONSE_FILE > /dev/null 2>&1
-rm $WORDLIST_FILE > /dev/null 2>&1
 
 # calculate and show total time
 ELAPSED=$(echo "$ETIME - $STIME" | bc)

@@ -1,0 +1,1 @@
+{"query":"title:{_TERM1_}","pagination":{"start":0,"rows":25},"preferences":{"target_pool":"","exclude_pool":[]}}
