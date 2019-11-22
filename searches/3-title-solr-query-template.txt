@@ -1,0 +1,1 @@
+test_core/select?q=title_t%3A_TERM1_%20or%20title_t%3A_TERM2_%20or%20title_t%3A_TERM3_
