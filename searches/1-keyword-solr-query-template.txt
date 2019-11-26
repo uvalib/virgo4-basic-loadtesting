@@ -1,0 +1,1 @@
+test_core/select?q=_query_%3A\"{!edismax}(_TERM1_)\"&fq=%2Bshadowed_location_f%3AVISIBLE&fq=%2Bpool_f%3A(catalog)&fq={!collapse%20field=work_title2_key_sort}

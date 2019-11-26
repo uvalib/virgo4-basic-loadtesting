@@ -1,1 +1,1 @@
-test_core/select?q=title_t%3A_TERM1_%20or%20title_t%3A_TERM2_%20or%20title_t%3A_TERM3_
+test_core/select?q=_query_%3A\"{!edismax%20qf=$title_qf%20pf=$title_pf}(_TERM1_)\"%20OR%20_query_%3A\"{!edismax%20qf=$title_qf%20pf=$title_pf}(_TERM2_)\"%20OR%20_query_%3A\"{!edismax%20qf=$title_qf%20pf=$title_pf}(_TERM3_)\"&fq=%2Bshadowed_location_f%3AVISIBLE&fq=%2Bpool_f%3A(catalog)&fq={!collapse%20field=work_title2_key_sort}
