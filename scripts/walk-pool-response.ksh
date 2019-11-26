@@ -89,7 +89,7 @@ while true; do
    log "$SEARCH_URL (start: $COUNT of $TOTAL)"
 
    # issue the search
-   $SCRIPT_DIR/issue-search.ksh $SEARCH_URL $REQUEST_FILE $RESPONSE_FILE
+   $SCRIPT_DIR/issue-api-search.ksh $SEARCH_URL $REQUEST_FILE $RESPONSE_FILE
    res=$?
    if [ $res -ne 0 ]; then
       cat $REQUEST_FILE

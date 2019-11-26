@@ -98,7 +98,7 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    log "Search $COUNTER of $ITERATIONS: ($(cat $PAYLOAD_FILE))"
 
    # issue the search
-   $SCRIPT_DIR/issue-search.ksh $endpoint $PAYLOAD_FILE $RESPONSE_FILE
+   $SCRIPT_DIR/issue-api-search.ksh $endpoint $PAYLOAD_FILE $RESPONSE_FILE
    res=$?
    if [ $res -ne 0 ]; then
       error_and_exit "$res issuing search, aborting"
