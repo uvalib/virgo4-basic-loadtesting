@@ -1,1 +1,1 @@
-test_core/select?q=_query_%3A\"{!edismax%20qf=$author_qf%20pf=$author_pf}(_TERM1_)\"&fq=%2Bshadowed_location_f%3AVISIBLE&fq=%2Bpool_f%3A(catalog)&fq={!collapse%20field=work_title2_key_sort}
+test_core/select?q=_query_%3A"%7B!edismax%20qf=$author_qf%20pf=$author_pf%7D(_TERM1_)"&fq=%2Bshadowed_location_f%3AVISIBLE&fq=%2Bpool_f%3A(catalog)&fq=%7B!collapse%20field=work_title2_key_sort%7D&defType=lucene&qt=search
