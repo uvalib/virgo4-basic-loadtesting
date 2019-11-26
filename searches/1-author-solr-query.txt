@@ -1,1 +1,0 @@
-test_core/select?q=author_t%3Ajefferson

@@ -1,1 +1,0 @@
-test_core/select?q=subject_t%3A_TERM1_%20or%20subject_t%3A_TERM2_

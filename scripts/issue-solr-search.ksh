@@ -48,7 +48,7 @@ QUERY=$(cat $QUERY_FILE)
 
 # call the tool
 #echo "$ENDPOINT"
-echo $CURL_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS ${ENDPOINT}/${QUERY} > $RUNNER
+echo "$CURL_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS \"${ENDPOINT}/${QUERY}\"" > $RUNNER
 echo "exit \$?" >> $RUNNER
 
 # for debugging
