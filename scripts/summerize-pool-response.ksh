@@ -29,8 +29,9 @@ JQ_TOOL=jq
 ensure_tool_available $JQ_TOOL
 
 HITS=$(cat $RESULTS_FILE | $JQ_TOOL ".pagination.total")
+TIME_MS=$(cat $RESULTS_FILE | $JQ_TOOL ".elapsed_ms")
 
-echo " ==> hits: $HITS"
+echo " ==> hits: $HITS, ms: $TIME_MS"
 
 exit 0
 
