@@ -47,7 +47,6 @@ ensure_tool_available $SHUF_TOOL
 endpoint=$(get_config "endpoint" $CONFIG_FILE required)
 payload=$(get_config "payload" $CONFIG_FILE required)
 wordlist=$(get_config "wordlist" $CONFIG_FILE required)
-rewrite=$(get_config "rewrite" $CONFIG_FILE required)
 walkresults=$(get_config "walkresults" $CONFIG_FILE required)
 
 # ensure payload template exists
