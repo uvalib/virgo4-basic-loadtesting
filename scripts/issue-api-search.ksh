@@ -9,18 +9,19 @@ SCRIPT_DIR=$(dirname $FULL_NAME)
 . $SCRIPT_DIR/common.ksh
 
 function help_and_exit {
-   report_and_exit "use: $(basename $0) <endpoint> <payload file> <results file>"
+   report_and_exit "use: $(basename $0) <endpoint> <auth token> <payload file> <results file>"
 }
 
 # ensure correct usage
-if [ $# -ne 3 ]; then
+if [ $# -ne 4 ]; then
    help_and_exit
 fi
 
 # input parameters for clarity
 ENDPOINT=$1
-PAYLOAD_FILE=$2
-RESULTS_FILE=$3
+AUTHTOKEN=$2
+PAYLOAD_FILE=$3
+RESULTS_FILE=$4
 
 # verify the payload file exists
 if [ ! -f $PAYLOAD_FILE ]; then
@@ -38,7 +39,7 @@ ensure_tool_available $CURL_TOOL
 TOOL_DEFAULTS="--fail"
 
 # define our basic options
-TOOL_OPTIONS="-X POST -H \"Content-Type: application/json\" -H \"Accept: application/json\" -H \"Authorization: Bearer bkb4notbo1bc80d2uucg\""
+TOOL_OPTIONS="-X POST -H \"Content-Type: application/json\" -H \"Accept: application/json\" -H \"Authorization: Bearer $AUTHTOKEN\""
 
 # temp files
 RUNNER=/tmp/runner.$$

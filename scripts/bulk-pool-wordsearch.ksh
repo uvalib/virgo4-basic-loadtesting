@@ -45,6 +45,7 @@ ensure_tool_available $SHUF_TOOL
 
 # get our parameters
 endpoint=$(get_config "endpoint" $CONFIG_FILE required)
+auth=$(get_config "auth" $CONFIG_FILE required)
 payload=$(get_config "payload" $CONFIG_FILE required)
 wordlist=$(get_config "wordlist" $CONFIG_FILE required)
 walkresults=$(get_config "walkresults" $CONFIG_FILE required)
@@ -67,6 +68,10 @@ WORD_COUNT=$(($ITERATIONS * 3 ))
 cat $wordlist | $SHUF_TOOL | head -$WORD_COUNT > $WORDLIST_FILE
 IFS=$'\n' read -d '' -r -a words < $WORDLIST_FILE
 rm $WORDLIST_FILE > /dev/null 2>&1
+
+# generate the authentication token
+log "Getting authentication token..."
+authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
 
 # temp files
 PAYLOAD_FILE=/tmp/payload.$$
@@ -97,7 +102,7 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    log "Search $COUNTER of $ITERATIONS: ($(cat $PAYLOAD_FILE))"
 
    # issue the search
-   $SCRIPT_DIR/issue-api-search.ksh $endpoint $PAYLOAD_FILE $RESPONSE_FILE
+   $SCRIPT_DIR/issue-api-search.ksh $endpoint $authtoken $PAYLOAD_FILE $RESPONSE_FILE
    res=$?
    if [ $res -ne 0 ]; then
       error_and_exit "$res issuing search, aborting"
