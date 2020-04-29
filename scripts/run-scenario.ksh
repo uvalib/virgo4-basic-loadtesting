@@ -39,17 +39,23 @@ ensure_tool_file_available $LOAD_TOOL
 # get our parameters
 endpoint=$(get_config "endpoint" $SCENARIO_FILE required)
 method=$(get_config "method" $SCENARIO_FILE required)
+auth=$(get_config "auth" $SCENARIO_FILE required)
 concurency=$(get_config "concurency" $SCENARIO_FILE required)
 qsec=$(get_config "qsec" $SCENARIO_FILE required)
 duration=$(get_config "duration" $SCENARIO_FILE required)
 payload=$(get_config "payload" $SCENARIO_FILE optional)
 
-TOOL_OPTIONS="-c $concurency -q $qsec -m $method -z $duration"
+# generate the authentication token
+log "Getting authentication token..."
+authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
+
+# construct the command line
+TOOL_OPTIONS="-c $concurency -q $qsec -m $method -z $duration -H \"Authorization: Bearer $authtoken\""
 
 # do some basic validation
 if [ "$method" == "POST" ]; then
    ensure_value_defined "payload" $payload
-   TOOL_OPTIONS="$TOOL_OPTIONS -H \"Content-Type: application/json\" -H \"Accept: application/json\" -H \"Authorization: Bearer bkb4notbo1bc80d2uucg\" -D $payload"
+   TOOL_OPTIONS="$TOOL_OPTIONS -H \"Content-Type: application/json\" -H \"Accept: application/json\" -D $payload"
 fi
 
 # call the tool

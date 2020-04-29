@@ -3,7 +3,7 @@
 #
 
 # end point and method
-endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
+endpoint: https://digital-content-ws.internal.lib.virginia.edu/api/item/u1046058
 method: GET
 
 # auth
