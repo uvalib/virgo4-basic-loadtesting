@@ -10,7 +10,7 @@ method: POST
 auth: https://v4-dev.lib.virginia.edu/authorize
 
 # method payload (optional as appropriate)
-payload: searches/keyword-query.json
+payload: searches/3-keyword-query.json
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
