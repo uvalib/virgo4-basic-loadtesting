@@ -1,0 +1,24 @@
+#
+# A simple scenario file to describe a load test case.
+#
+
+# end point and method
+endpoint: https://pool-worldcat-ws-dev.internal.lib.virginia.edu/api/search
+method: POST
+
+# auth
+auth: https://v4-dev.lib.virginia.edu/authorize
+
+# method payload (optional as appropriate)
+payload: searches/3-keyword-query.json
+
+# load parameters (total requests per second is qsec * concurrency)
+qsec: 1
+concurency: 8
+
+# test duration 10s, 3m, etc (total queries made is total requests per second * duration)
+duration: 3m
+
+#
+# end of file
+#
