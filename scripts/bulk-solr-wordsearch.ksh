@@ -94,7 +94,7 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    # generate the search from the template
    cat $query | $SED_TOOL -e "s/_TERM1_/$TERM1/g" | $SED_TOOL -e "s/_TERM2_/$TERM2/g" | $SED_TOOL -e "s/_TERM3_/$TERM3/g" > $QUERY_FILE
 
-   log "Search $COUNTER of $ITERATIONS: ($(cat $QUERY_FILE))"
+   log "Request $COUNTER of $ITERATIONS: ($(cat $QUERY_FILE))"
 
    # issue the search
    $SCRIPT_DIR/issue-solr-search.ksh $endpoint $QUERY_FILE $RESPONSE_FILE

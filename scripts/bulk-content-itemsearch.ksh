@@ -82,7 +82,7 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    IX=$(($RANDOM % $ITERATIONS))
    ID=${items[$IX]}
 
-   log "Search $COUNTER of $ITERATIONS: (id: $ID)"
+   log "Request $COUNTER of $ITERATIONS: (id: $ID)"
 
    # issue the search
    $SCRIPT_DIR/issue-api-item.ksh $endpoint $authtoken $ID $RESPONSE_FILE

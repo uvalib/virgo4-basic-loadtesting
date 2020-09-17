@@ -99,7 +99,7 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    # generate the search from the template
    cat $payload | $SED_TOOL -e "s/_TERM1_/$TERM1/g" | $SED_TOOL -e "s/_TERM2_/$TERM2/g" | $SED_TOOL -e "s/_TERM3_/$TERM3/g" > $PAYLOAD_FILE
 
-   log "Search $COUNTER of $ITERATIONS: ($(cat $PAYLOAD_FILE))"
+   log "Request $COUNTER of $ITERATIONS: ($(cat $PAYLOAD_FILE))"
 
    # issue the search
    $SCRIPT_DIR/issue-api-search.ksh $endpoint $authtoken $PAYLOAD_FILE $RESPONSE_FILE
@@ -107,6 +107,9 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    if [ $res -ne 0 ]; then
       error_and_exit "$res issuing search, aborting"
    fi
+
+   # debugging
+   #cat $RESPONSE_FILE
 
    # summerize the results
    if [ "$walkresults" == "no" ]; then
