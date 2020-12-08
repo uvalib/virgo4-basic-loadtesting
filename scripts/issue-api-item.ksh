@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# issue a search against the dogital content API given the parameters provided
+# issue a search against the digital content API given the parameters provided
 #
 
 # source helpers
@@ -31,7 +31,7 @@ CURL_TOOL=curl
 ensure_tool_available $CURL_TOOL
 
 # define the tool defaults
-TOOL_DEFAULTS="--fail"
+TOOL_DEFAULTS="--fail -s -S"
 
 # define our basic options
 TOOL_OPTIONS="-H \"Accept: application/json\" -H \"Authorization: Bearer $AUTHTOKEN\""
@@ -52,12 +52,13 @@ echo "exit \$?" >> $RUNNER
 
 chmod +x $RUNNER
 STIME=$(python -c 'import time; print time.time()')
-$RUNNER > $RESULTS_FILE 2>/dev/null
+$RUNNER > $RESULTS_FILE
 res=$?
 ETIME=$(python -c 'import time; print time.time()')
 rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
-   error_and_exit "$res issuing request"
+   #cat $RESULTS_FILE
+   exit $res
 fi
 
 ELAPSED=$(echo "$ETIME - $STIME" | bc)

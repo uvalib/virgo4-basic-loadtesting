@@ -92,9 +92,8 @@ while true; do
    $SCRIPT_DIR/issue-api-search.ksh $SEARCH_URL $REQUEST_FILE $RESPONSE_FILE
    res=$?
    if [ $res -ne 0 ]; then
-      cat $REQUEST_FILE
-      cat $RESPONSE_FILE
-      error_and_exit "$res issuing pool search, aborting"
+      echo "ERROR: issuing request (error shown above)"
+      continue
    fi
 
    #cat $RESPONSE_FILE

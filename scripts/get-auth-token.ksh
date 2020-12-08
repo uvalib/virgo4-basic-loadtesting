@@ -28,7 +28,7 @@ ensure_tool_available $CURL_TOOL
 RUNNER=/tmp/runner.$$
 
 # define the tool defaults
-TOOL_DEFAULTS="--fail"
+TOOL_DEFAULTS="--fail -s -S"
 
 # define our basic options
 TOOL_OPTIONS="-X POST -H \"Content-Type: application/json\" -H \"Accept: application/json\""
@@ -39,14 +39,10 @@ echo $CURL_TOOL $TOOL_DEFAULTS $TOOL_OPTIONS $AUTH_ENDPOINT > $RUNNER
 echo "exit \$?" >> $RUNNER
 
 chmod +x $RUNNER
-$RUNNER 2>/dev/null
+$RUNNER
 res=$?
 rm $RUNNER > /dev/null 2>&1
-if [ $res -ne 0 ]; then
-   error_and_exit "$res issuing auth token request"
-fi
-
-exit 0
+exit $res
 
 #
 # end of file

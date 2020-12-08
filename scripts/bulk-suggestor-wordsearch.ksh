@@ -104,7 +104,8 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    $SCRIPT_DIR/issue-api-search.ksh $endpoint $authtoken $PAYLOAD_FILE $RESPONSE_FILE
    res=$?
    if [ $res -ne 0 ]; then
-      error_and_exit "$res issuing search, aborting"
+      echo "ERROR: issuing request (error shown above)"
+      continue
    fi
 
    # debugging
