@@ -78,7 +78,6 @@ while [ $COUNTER -lt $ITERATIONS ]; do
 
    COUNTER=$(($COUNTER + 1 ))
 
-   # support up to 3 terms
    IX=$(($RANDOM % $ITERATIONS))
    ID=${items[$IX]}
 
@@ -100,6 +99,8 @@ while [ $COUNTER -lt $ITERATIONS ]; do
    #   res=$?
    #fi
    #cat $RESPONSE_FILE
+
+   #cp $RESPONSE_FILE tmp/$ID.json
 
    #if [ $res -ne 0 ]; then
    #   error_and_exit "$res processing results, aborting"
