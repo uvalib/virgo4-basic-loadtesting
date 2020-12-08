@@ -7,7 +7,7 @@ endpoint: https://pool-solr-ws-catalog-dev.internal.lib.virginia.edu/api/search
 method: POST
 
 # auth
-auth: https://v4-dev.lib.virginia.edu/authorize
+auth: https://search-dev.lib.virginia.edu/authorize
 
 # method payload (optional as appropriate)
 payload: searches/1-keyword-query.json

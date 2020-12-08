@@ -7,7 +7,7 @@ endpoint: https://virgo4-client-dev.internal.lib.virginia.edu/
 method: GET
 
 # auth
-auth: https://v4-dev.lib.virginia.edu/authorize
+auth: https://search-dev.lib.virginia.edu/authorize
 
 # load parameters (total requests per second is qsec * concurrency)
 qsec: 1
