@@ -1,15 +1,17 @@
 #
 # build the target application
 #
-FROM golang:1.12 as builder
+FROM public.ecr.aws/docker/library/golang:1.18-alpine3.15 as builder
+RUN apk update && apk upgrade
+
 ENV GOPATH /build
 WORKDIR $GOPATH
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go get -u github.com/rakyll/hey
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go install github.com/rakyll/hey@latest
 
 #
 # build the target container
 #
-FROM alpine:3.10
+FROM public.ecr.aws/docker/library/alpine:3.15
 
 # update the packages
 RUN apk update && apk upgrade && apk add bash tzdata ca-certificates curl jq && rm -rf /var/cache/apk/*
