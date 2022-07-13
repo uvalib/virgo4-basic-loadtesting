@@ -71,7 +71,7 @@ RESPONSE_FILE=/tmp/response.$$
 COUNTER=0
 
 # test start time
-STIME=$(python -c 'import time; print time.time()')
+STIME=$(python3 -c 'import time; print( time.time())')
 
 # go through the word list and issue a new search for each one
 while [ $COUNTER -lt $ITERATIONS ]; do
@@ -109,7 +109,7 @@ while [ $COUNTER -lt $ITERATIONS ]; do
 done
 
 # test end time
-ETIME=$(python -c 'import time; print time.time()')
+ETIME=$(python3 -c 'import time; print( time.time())')
 
 # remove the working files
 rm $RESPONSE_FILE > /dev/null 2>&1

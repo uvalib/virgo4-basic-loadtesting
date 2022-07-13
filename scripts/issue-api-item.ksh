@@ -51,10 +51,10 @@ echo "exit \$?" >> $RUNNER
 #cat $RUNNER
 
 chmod +x $RUNNER
-STIME=$(python -c 'import time; print time.time()')
+STIME=$(python3 -c 'import time; print( time.time())')
 $RUNNER > $RESULTS_FILE
 res=$?
-ETIME=$(python -c 'import time; print time.time()')
+ETIME=$(python3 -c 'import time; print( time.time())')
 rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
    #cat $RESULTS_FILE
