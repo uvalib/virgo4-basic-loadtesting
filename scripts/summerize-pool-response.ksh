@@ -31,6 +31,9 @@ ensure_tool_available $JQ_TOOL
 HITS=$(cat $RESULTS_FILE | $JQ_TOOL ".pagination.total")
 TIME_MS=$(cat $RESULTS_FILE | $JQ_TOOL ".elapsed_ms")
 
+# TEMP
+#cat $RESULTS_FILE
+
 if [ "$HITS" == "null" -a "$TIME_MS" == "null" ]; then
    echo -n "ERROR: "
    cat $RESULTS_FILE

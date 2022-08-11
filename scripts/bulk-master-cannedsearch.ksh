@@ -63,7 +63,7 @@ RESPONSE_FILE=/tmp/response.$$
 COUNTER=0
 
 # test start time
-STIME=$(python3 -c 'import time; print( time.time())')
+TSTART=$($SCRIPT_DIR/get-timestamp.ksh)
 
 # go through the input file and issue a new search for each one
 while read query; do
@@ -102,14 +102,14 @@ while read query; do
 done < $infile
 
 # test end time
-ETIME=$(python3 -c 'import time; print( time.time())')
+TEND=$($SCRIPT_DIR/get-timestamp.ksh)
 
 # remove the working files
 rm $PAYLOAD_FILE > /dev/null 2>&1
 rm $RESPONSE_FILE > /dev/null 2>&1
 
 # calculate and show total time
-ELAPSED=$(echo "$ETIME - $STIME" | bc)
+ELAPSED=$(echo "$TEND - $TSTART" | bc)
 log "Total test time $ELAPSED seconds"
 
 log "Exiting normally"

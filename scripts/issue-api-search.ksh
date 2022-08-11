@@ -57,17 +57,17 @@ echo "exit \$?" >> $RUNNER
 #cat $PAYLOAD_FILE
 
 chmod +x $RUNNER
-STIME=$(python3 -c 'import time; print( time.time())')
+TSTART=$($SCRIPT_DIR/get-timestamp.ksh)
 $RUNNER > $RESULTS_FILE
 res=$?
-ETIME=$(python3 -c 'import time; print( time.time())')
+TEND=$($SCRIPT_DIR/get-timestamp.ksh)
 rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
    #cat $RESULTS_FILE
    exit $res
 fi
 
-ELAPSED=$(echo "$ETIME - $STIME" | bc)
+ELAPSED=$(echo "$TEND - $TSTART" | bc)
 echo " ==> elapsed $ELAPSED seconds"
 
 # for debugging
