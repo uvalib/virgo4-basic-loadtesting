@@ -48,6 +48,10 @@ payload=$(get_config "payload" $SCENARIO_FILE optional)
 # generate the authentication token
 log "Getting authentication token..."
 authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
+ATIME=$($SCRIPT_DIR/get-timestamp.ksh)
+if [ -z "$authtoken" ]; then
+   error_and_exit "cannot get authentication token, aborting"
+fi
 
 # construct the command line
 TOOL_OPTIONS="-c $concurency -q $qsec -m $method -z $duration -H \"Authorization: Bearer $authtoken\""

@@ -53,13 +53,11 @@ walkresults=$(get_config "walkresults" $CONFIG_FILE required)
 # ensure payload template exists
 if [ ! -f $payload ]; then
    error_and_exit "$payload does not exist or is not readable"
-   exit 1
 fi
 
 # ensure wordlist source exists
 if [ ! -f $wordlist ]; then
    error_and_exit "$wordlist does not exist or is not readable"
-   exit 1
 fi
 
 # generate the test wordlist file we will use
@@ -69,10 +67,6 @@ cat $wordlist | $SHUF_TOOL | head -$WORD_COUNT > $WORDLIST_FILE
 IFS=$'\n' read -d '' -r -a words < $WORDLIST_FILE
 rm $WORDLIST_FILE > /dev/null 2>&1
 
-# generate the authentication token
-log "Getting authentication token..."
-authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
-
 # temp files
 PAYLOAD_FILE=/tmp/payload.$$
 RESPONSE_FILE=/tmp/response.$$
@@ -80,11 +74,33 @@ RESPONSE_FILE=/tmp/response.$$
 # our progress counter
 COUNTER=0
 
+# generate the authentication token
+log "Getting authentication token..."
+authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
+ATIME=$($SCRIPT_DIR/get-timestamp.ksh)
+if [ -z "$authtoken" ]; then
+   error_and_exit "cannot get authentication token, aborting"
+fi
+
 # test start time
-STIME=$(python3 -c 'import time; print( time.time())')
+TSTART=$($SCRIPT_DIR/get-timestamp.ksh)
 
 # go through the word list and issue a new search for each one
 while [ $COUNTER -lt $ITERATIONS ]; do
+
+   # every 50 requests, check the age of the auth token and renew as appropriate (more than 15 minutes old)
+   if [ $(( COUNTER % 50 )) == 0 ]; then
+      NOW=$($SCRIPT_DIR/get-timestamp.ksh)
+      AGE=$(echo "$NOW - $ATIME" | bc)
+      if [ $( echo "$AGE > 900" | bc ) -gt 0 ]; then
+         log "Getting authentication token..."
+         authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
+         ATIME=$($SCRIPT_DIR/get-timestamp.ksh)
+         if [ -z "$authtoken" ]; then
+            error_and_exit "cannot get authentication token, aborting"
+         fi
+      fi
+   fi
 
    COUNTER=$(($COUNTER + 1 ))
 
@@ -127,14 +143,14 @@ while [ $COUNTER -lt $ITERATIONS ]; do
 done
 
 # test end time
-ETIME=$(python3 -c 'import time; print( time.time())')
+TEND=$($SCRIPT_DIR/get-timestamp.ksh)
 
 # remove the working files
 rm $PAYLOAD_FILE > /dev/null 2>&1
 rm $RESPONSE_FILE > /dev/null 2>&1
 
 # calculate and show total time
-ELAPSED=$(echo "$ETIME - $STIME" | bc)
+ELAPSED=$(echo "$TEND - $TSTART" | bc)
 log "Total test time $ELAPSED seconds"
 
 log "Exiting normally"

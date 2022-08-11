@@ -71,6 +71,10 @@ rm $WORDLIST_FILE > /dev/null 2>&1
 # generate the authentication token
 log "Getting authentication token..."
 authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
+ATIME=$($SCRIPT_DIR/get-timestamp.ksh)
+if [ -z "$authtoken" ]; then
+   error_and_exit "cannot get authentication token, aborting"
+fi
 
 # temp files
 PAYLOAD_FILE=/tmp/payload.$$
@@ -84,6 +88,20 @@ TSTART=$($SCRIPT_DIR/get-timestamp.ksh)
 
 # go through the word list and issue a new search for each one
 while [ $COUNTER -lt $ITERATIONS ]; do
+
+   # every 50 requests, check the age of the auth token and renew as appropriate (more than 15 minutes old)
+   if [ $(( COUNTER % 50 )) == 0 ]; then
+      NOW=$($SCRIPT_DIR/get-timestamp.ksh)
+      AGE=$(echo "$NOW - $ATIME" | bc)
+      if [ $( echo "$AGE > 900" | bc ) -gt 0 ]; then
+         log "Getting authentication token..."
+         authtoken=$($SCRIPT_DIR/get-auth-token.ksh $auth)
+         ATIME=$($SCRIPT_DIR/get-timestamp.ksh)
+         if [ -z "$authtoken" ]; then
+            error_and_exit "cannot get authentication token, aborting"
+         fi
+      fi
+   fi
 
    COUNTER=$(($COUNTER + 1 ))
 
