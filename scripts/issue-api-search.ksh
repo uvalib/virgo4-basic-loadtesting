@@ -61,12 +61,14 @@ TSTART=$($SCRIPT_DIR/get-timestamp.ksh)
 $RUNNER > $RESULTS_FILE
 res=$?
 TEND=$($SCRIPT_DIR/get-timestamp.ksh)
-rm $RUNNER > /dev/null 2>&1
 if [ $res -ne 0 ]; then
-   #cat $RESULTS_FILE
+   cat $RUNNER
+   cat $PAYLOAD_FILE
+   cat $RESULTS_FILE
    exit $res
 fi
 
+rm $RUNNER > /dev/null 2>&1
 ELAPSED=$(echo "$TEND - $TSTART" | bc)
 echo " ==> elapsed $ELAPSED seconds"
 
